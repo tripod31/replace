@@ -33,4 +33,5 @@ Command line tool.
 replace_gui.pyw
 -----
 GUI tool.  
+in image message is shown in japanese,but it can be changed to english.  
 <img src="http://www.geocities.jp/tripod31hoge/images/replace.jpg">
