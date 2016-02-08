@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding:utf-8
 '''
 replace string in files in specified directory.
@@ -83,7 +84,7 @@ if __name__ == '__main__':
     parser.add_argument('--start_dir',
                         default=".")
     parser.add_argument('--file_pattern',
-                        help="pattern of the name of file to be replaced,in wild card format.ex)'*.txt,*.bat'")
+                        help="pattern of the name of file to be replaced,in wild card format,separeted by ','. example:'*.txt,*.bat'")
     parser.add_argument('--from_str')
     parser.add_argument('--to_str')
     parser.add_argument('--preview',
