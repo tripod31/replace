@@ -55,13 +55,10 @@ def replace(file,from_str,to_str):
     if data_new != data:
         raise EncodeException('verify data failed')
     try:
-        os.remove(file)
+        shutil.copyfile(temp_file[1], file)
     except Exception as e:
-        sys.stderr.write(str(e))
-        os.remove(temp_file[1])
-        return
-    
-    shutil.copyfile(temp_file[1], file)
+        print (str(e))
+        
     os.remove(temp_file[1])
     
     print("replaced:%s" % (file))
