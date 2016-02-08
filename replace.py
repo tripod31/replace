@@ -37,7 +37,7 @@ def replace(file,from_str,to_str):
                 f.write(data)
                 f.close()
     except Exception as e:
-        sys.stderr.write(e)
+        sys.stderr.write(str(e))
         return
     
     if not hit:
@@ -47,12 +47,19 @@ def replace(file,from_str,to_str):
     with open(temp_file, 'r',encoding=enc,newline='') as f:
         data_new = f.read()
     
-    if data_new == data:
+    if data_new != data:
+        os.remove(temp_file)
+        raise EncodeException('verify data failed')
+    
+    try:
         os.remove(file)
-        os.rename(temp_file, file)
-    else:
-        raise EncodeException('encoding failed')
-        
+    except Exception as e:
+        sys.stderr.write(str(e))
+        os.remove(temp_file)
+        return
+    
+    os.rename(temp_file, file)
+    
     print("replaced:%s" % (file))
 
 def process(start_dir,file_pattern,from_str,to_str,p_preview):
