@@ -8,6 +8,8 @@ python3.5
 
 required libraries
 -----
+yoshi.util:  
+<https://github.com/tripod31/common_python>  
 pyqt4(for GUI tool)
 
 replace.py
