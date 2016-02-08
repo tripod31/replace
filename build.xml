@@ -19,13 +19,16 @@
     </exec>
   </target>
     
-  <target name ="create ts" description="source --> *.ts(pyqt i18n)">
+  <target name ="update ts" description="source --> *.ts(pyqt i18n)">
     <exec executable="${lupdate}">
         <arg line="-verbose pyqt4.pro"/>
     </exec>
   </target>
   
   <target name="create po" description="source --> *.po(gettext i18n)">
+    <exec executable="cp">
+        <arg line="translations\ja\LC_MESSAGES\${app_name}.po translations\ja\LC_MESSAGES\${app_name}.po.bak"/>
+    </exec>
     <exec executable="python">
         <arg line="${pygettext} -o replace.po -p translations\ja\LC_MESSAGES ${app_name}.py"/>
     </exec>
