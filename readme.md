@@ -8,6 +8,7 @@ python3.5
 
 required libraries
 -----
+pyqt4(for GUI tool)
 
 replace.py
 -----
@@ -28,3 +29,8 @@ Command line tool.
       --from_str FROM_STR
       --to_str TO_STR
       --preview             do not change files when specified
+
+replace_gui.pyw
+-----
+GUI tool.  
+<img src="http://www.geocities.jp/tripod31hoge/images/replace.jpg">
