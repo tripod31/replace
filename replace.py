@@ -6,6 +6,8 @@ import argparse
 #import re
 import os
 import sys
+import tempfile
+import shutil
 
 from yoshi.util import find_all_files,is_match_patterns_fnmatch,get_encoding,EncodeException    #@UnresolvedImport
 
@@ -28,14 +30,14 @@ def replace(file,from_str,to_str):
     hit =False
     try:
         enc,data = get_encoding(file)
-        temp_file= file+".tmp"
         if data.find(from_str) != -1:
             hit = True
         
             data = data.replace(from_str, to_str)
-            with open(temp_file, 'w',encoding=enc,newline='') as f:    #newline='':leave end of line chars as they are
-                f.write(data)
-                f.close()
+            bytes_data = data.encode(enc) 
+            temp_file= tempfile.mkstemp()
+            ft = os.fdopen(temp_file[0],mode='w+b') #binary mode,to prevent end of line to be changed
+            ft.write(bytes_data)
     except Exception as e:
         sys.stderr.write(str(e))
         return
@@ -44,21 +46,22 @@ def replace(file,from_str,to_str):
         return
     
     #verify data
-    with open(temp_file, 'r',encoding=enc,newline='') as f:
-        data_new = f.read()
+    ft.seek(0)
+    new_bytes = ft.read()
+    ft.close()
+    data_new =new_bytes.decode(enc)
     
     if data_new != data:
-        os.remove(temp_file)
         raise EncodeException('verify data failed')
-    
     try:
         os.remove(file)
     except Exception as e:
         sys.stderr.write(str(e))
-        os.remove(temp_file)
+        os.remove(temp_file[1])
         return
     
-    os.rename(temp_file, file)
+    shutil.copyfile(temp_file[1], file)
+    os.remove(temp_file[1])
     
     print("replaced:%s" % (file))
 

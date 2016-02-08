@@ -63,7 +63,9 @@ class Test1(unittest.TestCase):
         pass
 
 if __name__ == '__main__':
-    #unittest.main()
+    unittest.main()
+    '''
     suite = unittest.TestSuite()
     suite.addTest(Test1('test_call'))
     unittest.TextTestRunner(verbosity=2).run(suite)
+    '''
