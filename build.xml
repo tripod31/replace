@@ -7,6 +7,7 @@
   <property name="lupdate" location="D:\devel\Python3\Lib\site-packages\PyQt4\pylupdate4.exe"/>
   <property name="pygettext" location="D:\devel\Python3\tools\i18n\pygettext.py"/>
   <property name="msgfmt" location="D:\devel\Python3\tools\i18n\msgfmt.py"/>
+  
   <property name="cxfreeze" location="D:\devel\Python3\Scripts\cxfreeze"/>
   
   <target name="create ui" description="*.ui(qtdesigner) --> *.py">
@@ -43,6 +44,12 @@
     </exec>
   </target>
   
+  <target name="pyinstaller">
+    <exec executable="pyinstaller">
+        <arg line="${app_name}_gui.pyw --onefile --noconsole --distpath ."/>
+    </exec>
+  </target>
+    
   <target name="cxfreeze">
     <exec executable="python">
         <arg line="${cxfreeze} ${app_name}_gui.pyw"/>
