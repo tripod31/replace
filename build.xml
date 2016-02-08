@@ -29,6 +29,9 @@
     <exec executable="python">
         <arg line="${pygettext} -o replace.po -p translations\ja\LC_MESSAGES ${app_name}.py"/>
     </exec>
+    <exec executable="sed">
+        <arg line="-i 's/charset=cp932/charset=utf-8/' translations\ja\LC_MESSAGES\${app_name}.po"/>
+    </exec>  
   </target>
   
   <target name="create mo" description="*.po --> *.mo(gettext i18n compiled)">
