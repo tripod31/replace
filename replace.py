@@ -10,69 +10,71 @@ import sys
 import tempfile
 import shutil
 
-from yoshi.util import find_all_files,is_match_patterns_fnmatch,get_encoding,EncodeException    #@UnresolvedImport
+from yoshi.util import find_all_files,is_match_patterns_fnmatch,\
+            get_encoding,EncodeException,replace_str,print_arr,DecodeException    #@UnresolvedImport
 
-def preview(file,from_str):
-    hit=False
-    try:
-        enc,data = get_encoding(file)
-        if data.find(from_str) != -1:
-            hit = True
-    except Exception as e:
-        sys.stderr.write(e)
-        return
-    finally:
-        pass
-            
-    if hit:
-        print("hit:%s" % (file))
+import gettext
+#translation
+translation = gettext.translation(
+    domain='replace',
+    localedir=os.path.join(os.path.dirname(__file__), 'translations'),
+    fallback=True,
+    codeset='utf-8'
+    )
+_=translation.gettext
 
-def replace(file,from_str,to_str):
-    hit =False
-    try:
-        enc,data = get_encoding(file)
-        if data.find(from_str) != -1:
-            hit = True
-        
-            data = data.replace(from_str, to_str)
-            bytes_data = data.encode(enc) 
-            temp_file= tempfile.mkstemp()
-            ft = os.fdopen(temp_file[0],mode='w+b') #binary mode,to prevent end of line to be changed
-            ft.write(bytes_data)
-    except Exception as e:
-        sys.stderr.write(str(e))
+def process(start_dir,file_pattern,from_str,to_str,preview):
+    if not os.path.exists(start_dir):
+        print(_("%s: does'nt exists") % start_dir )
         return
     
-    if not hit:
-        return
-    
-    #verify data
-    ft.seek(0)
-    new_bytes = ft.read()
-    ft.close()
-    data_new =new_bytes.decode(enc)
-    
-    if data_new != data:
-        raise EncodeException('verify data failed')
-    try:
-        shutil.copyfile(temp_file[1], file)
-    except Exception as e:
-        print (str(e))
-        
-    os.remove(temp_file[1])
-    
-    print("replaced:%s" % (file))
-
-def process(start_dir,file_pattern,from_str,to_str,p_preview):
     files = find_all_files(start_dir)
-    for file in files:
-        if is_match_patterns_fnmatch(file, file_pattern.split()):
-            if p_preview:
-                preview(file,from_str)
-            else:
-                replace(file,from_str,to_str)
+    count =0
+    files_processed=[]  #files to be processed
+    files_dec_ng=[]     #files that can't be decoded
     
-    print("finished.")
+    #gather information of files.current encoding,end of line
+    for path in files:
+        if not is_match_patterns_fnmatch(path, file_pattern.split(',')):
+            continue
+        try:
+            encoding,data = get_encoding(path)
+        except DecodeException:
+            files_dec_ng.append(path)
+            continue
+        
+        if from_str in data: 
+            files_processed.append(path)
+    
+    #print files that can't be decoded
+    if len(files_dec_ng)>0:
+        print(_("Can't decode these files.They are not processed:"))
+        for path in files_dec_ng:
+            print(path)
+        print("---")
+        
+    #print files to be converted
+    if len(files_processed)>0:
+        print(_("files to replace:"))
+        for path in files_processed:
+            print(path)
+        print("---")
+    else:
+        print(_("nothing to do."))
+        return
+    
+    #return here if preview mode
+    if preview:
+        print (_("***preview mode***"))
+        return
+    
+    #convert
+    for path in files_processed:
+        replace_str(path,from_str,to_str)
+        count+=1
+
+    print (count,_("files changed."))   
+
 
 if __name__ == '__main__':
     

@@ -1,6 +1,6 @@
 replace
 =====
-tool to convert string that are in specified directory.
+tool to convert string in files that are in specified directory.
 
 development environment
 -----
