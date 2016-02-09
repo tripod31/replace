@@ -83,9 +83,10 @@ if __name__ == '__main__':
     parser.add_argument('--start_dir',
                         default=".")
     parser.add_argument('--file_pattern',
+                        default="*.*",
                         help="pattern of the name of file to be replaced,in wild card format,separeted by ','. example:'*.txt,*.bat'")
-    parser.add_argument('--from_str')
-    parser.add_argument('--to_str')
+    parser.add_argument('--from_str'    ,required=True)
+    parser.add_argument('--to_str'      ,required=True)
     parser.add_argument('--preview',
                         action='store_true',default=False,
                         help="do not change files when specified")
