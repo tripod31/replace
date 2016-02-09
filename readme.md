@@ -4,8 +4,10 @@ tool to convert string in files that are in specified directory.
 
 windows binary
 -----
-*.exe  
-python and required libraries are included is it.  
++ replace.exe  
++ replace_gui.exe(GUI)  
+
+python and required libraries are included in it.  
 
 development environment
 -----
