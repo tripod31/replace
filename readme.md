@@ -23,11 +23,11 @@ replace.py
 -----
 Command line tool.
 
-####usage
+#### usage
 
     usage: replace.py [-h] [--start_dir START_DIR] [--file_pattern FILE_PATTERN]
                       [--from_str FROM_STR] [--to_str TO_STR] [--preview]
-    
+
     optional arguments:
       -h, --help            show this help message and exit
       --start_dir START_DIR
