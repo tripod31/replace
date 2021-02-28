@@ -1,29 +1,29 @@
 replace
 =====
-指定されたフォルダ以下のファイルの中の文字列を書き換えるツール
+tool to convert string in files that are in specified directory.
 
-windows実行ファイル
+windows binary
 -----
 + replace.exe  
 + replace_gui.exe(GUI)  
 
-pythonと必要なライブラリが含まれています。  
+python and required libraries are included in it.  
 
-開発環境
+development environment
 -----
 python3.5
 
-必要なライブラリ
+required libraries
 -----
 yoshi.util:  
 <https://github.com/tripod31/common_python>  
-pyqt4(GUI)
+pyqt4(for GUI tool)
 
 replace.py
 -----
-コマンドラインツール
+Command line tool.
 
-#### 使い方
+#### usage
 
     usage: replace.py [-h] [--start_dir START_DIR] [--file_pattern FILE_PATTERN]
                       [--from_str FROM_STR] [--to_str TO_STR] [--preview]
@@ -41,5 +41,6 @@ replace.py
 
 replace_gui.pyw
 -----
-GUIツール   
-<img src="https://user-images.githubusercontent.com/6335693/50577296-a9394080-0e68-11e9-8293-ceafc8ba7e76.jpg">
+GUI tool.  
+in image message is shown in japanese,but it can be changed to english.  
+<img src="http://www.geocities.jp/tripod31hoge/images/replace.jpg">
